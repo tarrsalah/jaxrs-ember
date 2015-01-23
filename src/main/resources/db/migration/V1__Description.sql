@@ -5,5 +5,6 @@ create table TASK (
     DONE BOOLEAN
 );
 
-INSERT INTO TASK ( NAME, DONE) VALUES ('Finish the jersey-todo-app', false);
+INSERT INTO TASK ( NAME, DONE) VALUES ('Finish the jersey-ember-todos', false);
 INSERT INTO TASK ( NAME, DONE) VALUES ('Watch some awesome videos', false);
+INSERT INTO TASK ( NAME, DONE) VALUES ('Write the damn thesis', false);

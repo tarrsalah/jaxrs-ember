@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.tarrsalah.todos.persistence;
+package com.github.tarrsalah.jaxrs.db;
 
 import javax.sql.DataSource;
 import org.apache.ibatis.datasource.pooled.PooledDataSource;

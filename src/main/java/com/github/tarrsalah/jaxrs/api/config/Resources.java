@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 tarrsalah.
+ * Copyright 2014 tarrsalah.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,34 +21,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.tarrsalah.todos.rest.config.providers;
+package com.github.tarrsalah.jaxrs.api.config;
+
+import com.github.tarrsalah.jaxrs.db.TaskService;
+import org.glassfish.hk2.utilities.binding.AbstractBinder;
+import org.glassfish.jersey.jackson.JacksonFeature;
+import org.glassfish.jersey.server.ResourceConfig;
 
 /**
  *
  * @author tarrsalah
  */
-import javax.ws.rs.ext.ContextResolver;
-import javax.ws.rs.ext.Provider;
+public class Resources extends ResourceConfig {
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+    public static final String RESOURCES = "com.github.tarrsalah.todos.rest";
 
-@Provider
-public class ObjectMapperProvider implements ContextResolver<ObjectMapper> {
-
-    private final ObjectMapper objectMapper;
-
-    public ObjectMapperProvider() {
-        objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
-        objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
-        objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+    public Resources() {
+        packages(RESOURCES);
+        register(new HK2Binder());
+        register(JacksonFeature.class);
+        register(new ObjectMapperProvider());
     }
 
-    @Override
-    public ObjectMapper getContext(@SuppressWarnings("rawtypes") Class type) {
-        return objectMapper;
-    }
+    private class HK2Binder extends AbstractBinder {
 
+        @Override
+        protected void configure() {
+            bind(TaskService.class).to(TaskService.class);
+        }
+    }
 }

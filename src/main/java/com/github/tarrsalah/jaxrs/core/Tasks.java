@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2014 tarrsalah.
+ * Copyright 2015 tarrsalah.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,24 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.tarrsalah.todos.persistence.mappers;
+package com.github.tarrsalah.jaxrs.core;
 
-import com.github.tarrsalah.todos.model.Task;
-import java.util.List;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import com.fasterxml.jackson.annotation.JsonRootName;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  *
  * @author tarrsalah
  */
-public interface TaskMapper {
-    public static String GET_ALL_TASKS_SQL = "SELECT * FROM TASK";          
-    
-    @Select(GET_ALL_TASKS_SQL)
-    @Results({   
-    @Result(column="ID", property="id"),    
-    @Result(column="NAME", property="name")})
-    public List<Task> getAllTasks();    
+@JsonRootName("tasks")
+public class Tasks extends ArrayList<Task> {
+
+    public Tasks(Collection<? extends Task> c) {
+        addAll(c);
+    }
+
 }

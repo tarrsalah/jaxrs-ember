@@ -21,9 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.tarrsalah.todos;
+package com.github.tarrsalah.jaxrs;
 
-import com.github.tarrsalah.todos.rest.config.Resources;
+import com.github.tarrsalah.jaxrs.api.config.Resources;
 import java.io.IOException;
 import java.net.URI;
 import java.util.logging.Logger;
@@ -43,48 +43,41 @@ public class Main {
     public static final URI BASE_URI = getBaseURI();
 
     private static int getPort(int defaultPort) {
-	//grab port from environment, otherwise fall back to default port 9998
-	String httpPort = System.getProperty("jersey.test.port");
-	if (null != httpPort) {
-	    try {
-		return Integer.parseInt(httpPort);
-	    } catch (NumberFormatException e) {
-	    }
-	}
-	return defaultPort;
+        //grab port from environment, otherwise fall back to default port 9998
+        String httpPort = System.getProperty("jersey.test.port");
+        if (null != httpPort) {
+            try {
+                return Integer.parseInt(httpPort);
+            } catch (NumberFormatException e) {
+            }
+        }
+        return defaultPort;
     }
 
     private static URI getBaseURI() {
-	return UriBuilder.fromUri("http://localhost").port(getPort(HTTP_PORT)).build();
+        return UriBuilder.fromUri("http://localhost").port(getPort(HTTP_PORT)).build();
     }
 
     private static HttpServer getHttpServer() throws IOException {
-	HttpServer server = GrizzlyHttpServerFactory
-		.createHttpServer(UriBuilder
-			.fromUri("http://localhost/")
-			.port(HTTP_PORT)
-			.build(),
-			new Resources());
-	return server;
-    }
-
-    private static void startHTTPServer() throws IOException {
-	HttpServer httpServer = getHttpServer();
-	System.out.println(String.format("Jersey app started with WADL available at "
-		+ "%sapplication.wadl\nHit enter to stop it...",
-		BASE_URI));
-	System.in.read();
-	httpServer.shutdown();
-    }
-
-    private static void flyMigrateDB() {
-	Flyway flyway = new Flyway();
-	flyway.setDataSource("jdbc:h2:mem:todo;DB_CLOSE_DELAY=1000", "", "");
-	flyway.migrate();
+        HttpServer server = GrizzlyHttpServerFactory
+                .createHttpServer(UriBuilder
+                        .fromUri("http://localhost/")
+                        .port(HTTP_PORT)
+                        .build(),
+                        new Resources());
+        return server;
     }
 
     public static void main(String[] args) throws IOException {
-	flyMigrateDB();
-	startHTTPServer();
+        Flyway flyway = new Flyway();
+        flyway.setDataSource("jdbc:h2:mem:todo;DB_CLOSE_DELAY=1000", "", "");
+        flyway.migrate();
+
+        HttpServer httpServer = getHttpServer();
+        System.out.println(String.format("Jersey app started with WADL available at "
+                + "%sapplication.wadl\nHit enter to stop it...",
+                BASE_URI));
+        System.in.read();
+        httpServer.shutdown();
     }
 }

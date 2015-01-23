@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 tarrsalah.
+ * Copyright 2014 tarrsalah.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,22 +21,49 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.tarrsalah.todos.model.collections;
+package com.github.tarrsalah.jaxrs.core;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
-import com.github.tarrsalah.todos.model.Task;
-import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  *
  * @author tarrsalah
  */
-@JsonRootName("tasks")
-public class Tasks extends ArrayList<Task> {
+@JsonRootName("customer")
+public class Task {
 
-    public Tasks(Collection<? extends Task> c) {
-        addAll(c);
+    private long id;
+    private String name;
+
+    public Task() {
+        id = 0;
+        name = "";
+    }
+
+    public Task(long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Task(String name) {
+        this.id = 0;
+        this.name = name;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

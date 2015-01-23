@@ -21,49 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.tarrsalah.todos.model;
+package com.github.tarrsalah.jaxrs.db;
 
-import com.fasterxml.jackson.annotation.JsonRootName;
+import com.github.tarrsalah.jaxrs.core.Task;
+import java.util.List;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
+import org.apache.ibatis.annotations.Select;
 
 /**
  *
  * @author tarrsalah
  */
-@JsonRootName("customer")
-public class Task {
+public interface TaskMapper {
 
-    private long id;
-    private String name;
+    public static String GET_ALL_TASKS_SQL = "SELECT * FROM TASK";
 
-    public Task() {
-        id = 0;
-        name = "";
-    }
-
-    public Task(long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Task(String name) {
-        this.id = 0;
-        this.name = name;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    @Select(GET_ALL_TASKS_SQL)
+    @Results({
+        @Result(column = "ID", property = "id"),
+        @Result(column = "NAME", property = "name")})
+    public List<Task> getAllTasks();
 }
