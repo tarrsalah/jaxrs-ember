@@ -23,10 +23,13 @@
  */
 package com.github.tarrsalah.todos.model;
 
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 /**
  *
  * @author tarrsalah
  */
+@JsonRootName("customer")
 public class Task {
 
     private long id;

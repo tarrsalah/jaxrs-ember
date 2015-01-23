@@ -23,7 +23,7 @@
  */
 package com.github.tarrsalah.todos;
 
-import com.github.tarrsalah.todos.config.Resources;
+import com.github.tarrsalah.todos.rest.config.Resources;
 import java.io.IOException;
 import java.net.URI;
 import java.util.logging.Logger;
@@ -55,7 +55,7 @@ public class Main {
     }
 
     private static URI getBaseURI() {
-	return UriBuilder.fromUri("http://localhost/").port(getPort(HTTP_PORT)).build();
+	return UriBuilder.fromUri("http://localhost").port(getPort(HTTP_PORT)).build();
     }
 
     private static HttpServer getHttpServer() throws IOException {

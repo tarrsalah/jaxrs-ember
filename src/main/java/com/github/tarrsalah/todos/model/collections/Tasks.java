@@ -21,33 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.tarrsalah.todos.config.providers;
+package com.github.tarrsalah.todos.model.collections;
+
+import com.fasterxml.jackson.annotation.JsonRootName;
+import com.github.tarrsalah.todos.model.Task;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  *
  * @author tarrsalah
  */
-import javax.ws.rs.ext.ContextResolver;
-import javax.ws.rs.ext.Provider;
+@JsonRootName("tasks")
+public class Tasks extends ArrayList<Task> {
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-
-@Provider
-public class ObjectMapperProvider implements ContextResolver<ObjectMapper> {
-
-    private final ObjectMapper objectMapper;
-
-    public ObjectMapperProvider() {
-        objectMapper = new ObjectMapper();
-        objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
-        objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
-    }
-
-    @Override
-    public ObjectMapper getContext(@SuppressWarnings("rawtypes") Class type) {
-        return objectMapper;
+    public Tasks(Collection<? extends Task> c) {
+        addAll(c);
     }
 
 }

@@ -3,9 +3,9 @@
  *
  * Copyright 2014 tarrsalah.
  *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
- * Permission is hereby granted, free of charge, to any person obtaining a copy
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
@@ -21,33 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.tarrsalah.todos.rest;
+package com.github.tarrsalah.todos.rest.config;
 
-import com.github.tarrsalah.todos.model.Task;
-import com.github.tarrsalah.todos.model.collections.Tasks;
+import com.github.tarrsalah.todos.rest.config.providers.ObjectMapperProvider;
 import com.github.tarrsalah.todos.service.TaskService;
-import java.util.List;
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import org.glassfish.hk2.utilities.binding.AbstractBinder;
+import org.glassfish.jersey.jackson.JacksonFeature;
+import org.glassfish.jersey.server.ResourceConfig;
 
 /**
  *
  * @author tarrsalah
  */
-@Path("/tasks")
-public class TaskResource {
+public class Resources extends ResourceConfig {
 
-    @Inject
-    private TaskService service;
+    public static final String RESOURCES = "com.github.tarrsalah.todos.rest";
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
-    public Response getTasks() {        
-        Tasks tasks = new Tasks(service.getAllTAsks());
-        return Response.status(Response.Status.OK).entity(tasks).build();
+    public Resources() {
+        packages(RESOURCES);
+        register(new HK2Binder());
+        register(JacksonFeature.class);
+        register(new ObjectMapperProvider());
+    }
+
+    private class HK2Binder extends AbstractBinder {
+
+        @Override
+        protected void configure() {
+            bind(TaskService.class).to(TaskService.class);
+        }
     }
 }
