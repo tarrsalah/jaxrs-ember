@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2014 tarrsalah.
+ * Copyright 2015 tarrsalah.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,29 +21,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.tarrsalah.todos.service;
-
-import com.github.tarrsalah.todos.persistence.Database;
-import com.github.tarrsalah.todos.persistence.mappers.TaskMapper;
-import com.github.tarrsalah.todos.model.Task;
-import java.util.List;
-import org.apache.ibatis.session.SqlSession;
+package com.github.tarrsalah.todos.config.providers;
 
 /**
  *
  * @author tarrsalah
  */
-public class TaskService {
+import javax.ws.rs.ext.ContextResolver;
+import javax.ws.rs.ext.Provider;
 
-    public List<Task> getAllTAsks() {
-        List<Task> tasks = null;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
-        try (SqlSession sqlSession = Database.getSqlSessionFactory().openSession()) {
-            TaskMapper taskMapper = sqlSession.getMapper(TaskMapper.class);
-            tasks = taskMapper.getAllTasks();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return tasks;
+@Provider
+public class ObjectMapperProvider implements ContextResolver<ObjectMapper> {
+
+    private final ObjectMapper objectMapper;
+
+    public ObjectMapperProvider() {
+        objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
+        objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
     }
+
+    @Override
+    public ObjectMapper getContext(@SuppressWarnings("rawtypes") Class type) {
+        return objectMapper;
+    }
+
 }

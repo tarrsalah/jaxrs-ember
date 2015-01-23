@@ -21,29 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.tarrsalah.todos.service;
+package com.github.tarrsalah.todos.config;
 
-import com.github.tarrsalah.todos.persistence.Database;
-import com.github.tarrsalah.todos.persistence.mappers.TaskMapper;
-import com.github.tarrsalah.todos.model.Task;
-import java.util.List;
-import org.apache.ibatis.session.SqlSession;
+import com.github.tarrsalah.todos.service.TaskService;
+import org.glassfish.hk2.utilities.binding.AbstractBinder;
+import org.glassfish.jersey.jackson.JacksonFeature;
+import org.glassfish.jersey.server.ResourceConfig;
 
 /**
  *
  * @author tarrsalah
  */
-public class TaskService {
+public class Resources extends ResourceConfig {
 
-    public List<Task> getAllTAsks() {
-        List<Task> tasks = null;
+    public static final String RESOURCES = "com.github.tarrsalah.todos.api";
 
-        try (SqlSession sqlSession = Database.getSqlSessionFactory().openSession()) {
-            TaskMapper taskMapper = sqlSession.getMapper(TaskMapper.class);
-            tasks = taskMapper.getAllTasks();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+    public Resources() {
+        packages(RESOURCES);
+        register(new HK2Binder());
+        register(JacksonFeature.class);
+    }
+
+    private class HK2Binder extends AbstractBinder {
+
+        @Override
+        protected void configure() {
+            bind(TaskService.class).to(TaskService.class);
         }
-        return tasks;
     }
 }

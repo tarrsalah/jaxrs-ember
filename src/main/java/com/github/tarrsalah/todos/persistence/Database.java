@@ -37,6 +37,7 @@ import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
  * @author tarrsalah
  */
 public class Database {
+
     private static final String PACKAGE_MAPPERS = "com.github.tarrsalah.todos.persistence.mappers";
 
     private static DataSource getDataSource() {
