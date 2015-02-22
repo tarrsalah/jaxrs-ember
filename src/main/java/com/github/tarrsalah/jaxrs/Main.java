@@ -26,7 +26,6 @@ package com.github.tarrsalah.jaxrs;
 import com.github.tarrsalah.jaxrs.api.config.Resources;
 import java.io.IOException;
 import java.net.URI;
-import java.util.logging.Logger;
 import javax.ws.rs.core.UriBuilder;
 import org.flywaydb.core.Flyway;
 import org.glassfish.grizzly.http.server.HttpServer;
@@ -38,46 +37,16 @@ import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
  */
 public class Main {
 
-    private static final Logger LOG = Logger.getLogger(Main.class.getName());
-    public static final int HTTP_PORT = 3003;
-    public static final URI BASE_URI = getBaseURI();
-
-    private static int getPort(int defaultPort) {
-        //grab port from environment, otherwise fall back to default port 9998
-        String httpPort = System.getProperty("jersey.test.port");
-        if (null != httpPort) {
-            try {
-                return Integer.parseInt(httpPort);
-            } catch (NumberFormatException e) {
-            }
-        }
-        return defaultPort;
-    }
+    public static final int PORT = 3000;
 
     private static URI getBaseURI() {
-        return UriBuilder.fromUri("http://localhost").port(getPort(HTTP_PORT)).build();
-    }
-
-    private static HttpServer getHttpServer() throws IOException {
-        HttpServer server = GrizzlyHttpServerFactory
-                .createHttpServer(UriBuilder
-                        .fromUri("http://localhost/")
-                        .port(HTTP_PORT)
-                        .build(),
-                        new Resources());
-        return server;
+        return UriBuilder.fromUri("http://localhost").port(PORT).build();
     }
 
     public static void main(String[] args) throws IOException {
         Flyway flyway = new Flyway();
         flyway.setDataSource("jdbc:h2:mem:todo;DB_CLOSE_DELAY=1000", "", "");
         flyway.migrate();
-
-        HttpServer httpServer = getHttpServer();
-        System.out.println(String.format("Jersey app started with WADL available at "
-                + "%sapplication.wadl\nHit enter to stop it...",
-                BASE_URI));
-        System.in.read();
-        httpServer.shutdown();
+        HttpServer server = GrizzlyHttpServerFactory.createHttpServer(getBaseURI(), new Resources());
     }
 }

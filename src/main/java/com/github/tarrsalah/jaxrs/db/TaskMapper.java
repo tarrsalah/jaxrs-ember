@@ -28,6 +28,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Options;
 
 /**
  *
@@ -41,5 +43,10 @@ public interface TaskMapper {
     @Results({
         @Result(column = "ID", property = "id"),
         @Result(column = "NAME", property = "name")})
-    public List<Task> getAllTasks();
+    public List<Task> getAll();
+
+    @Insert("INSERT INTO TODO(NAME) VALUES(#{name}")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    public void insert(Task task);
+
 }

@@ -42,7 +42,7 @@ public class Database {
 
     private static DataSource getDataSource() {
         String driver = "org.h2.Driver";
-        String url = "jdbc:h2:mem:todo;DB_CLOSE_DELAY=1000";
+        String url = "jdbc:h2:mem:todo";
         String username = "";
         String password = "";
         PooledDataSource dataSource = new PooledDataSource(driver, url, username, password);

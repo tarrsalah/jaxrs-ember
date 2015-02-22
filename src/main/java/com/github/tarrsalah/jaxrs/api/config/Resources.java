@@ -23,6 +23,7 @@
  */
 package com.github.tarrsalah.jaxrs.api.config;
 
+import com.github.tarrsalah.jaxrs.api.TaskResource;
 import com.github.tarrsalah.jaxrs.db.TaskService;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.jackson.JacksonFeature;
@@ -34,10 +35,10 @@ import org.glassfish.jersey.server.ResourceConfig;
  */
 public class Resources extends ResourceConfig {
 
-    public static final String RESOURCES = "com.github.tarrsalah.todos.rest";
+    public static final String RESOURCES = "com.github.tarrsalah.jaxrs.api";
 
     public Resources() {
-        packages(RESOURCES);
+        registerClasses(TaskResource.class);
         register(new HK2Binder());
         register(JacksonFeature.class);
         register(new ObjectMapperProvider());

@@ -34,15 +34,25 @@ import org.apache.ibatis.session.SqlSession;
  */
 public class TaskService {
 
-    public Tasks getAllTAsks() {
+    public Tasks getAll() {
         List<Task> tasks = null;
 
         try (SqlSession sqlSession = Database.getSqlSessionFactory().openSession()) {
             TaskMapper taskMapper = sqlSession.getMapper(TaskMapper.class);
-            tasks = taskMapper.getAllTasks();
+            tasks = taskMapper.getAll();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         return new Tasks(tasks);
+    }
+
+    public void insert(Task task) {
+        try (SqlSession sqlSession = Database.getSqlSessionFactory().openSession()) {
+            TaskMapper taskMapper = sqlSession.getMapper(TaskMapper.class);
+            taskMapper.insert(task);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
