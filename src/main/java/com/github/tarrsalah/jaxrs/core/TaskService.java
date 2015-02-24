@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 tarrsalah.
+ * Copyright 2014 tarrsalah.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,23 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.tarrsalah.jaxrs.db;
+package com.github.tarrsalah.jaxrs.core;
 
-import com.github.tarrsalah.jaxrs.core.Task;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import org.skife.jdbi.v2.StatementContext;
-import org.skife.jdbi.v2.tweak.ResultSetMapper;
+import com.github.tarrsalah.jaxrs.db.DB;
+import com.github.tarrsalah.jaxrs.db.TaskDAO;
+import java.util.List;
 
 /**
  *
  * @author tarrsalah
  */
-public class TaskMapper implements ResultSetMapper<Task> {
+public class TaskService {
 
-    @Override
-    public Task map(int i, ResultSet rs, StatementContext sc) throws SQLException {
-        return new Task(rs.getInt("id"), rs.getString("name"));
+    public Tasks getAll() {
+        List<Task> tasks;
+        TaskDAO taskDAO = DB.dbi.open(TaskDAO.class);
+        tasks = taskDAO.getAll();
+        return new Tasks(tasks);
     }
 
+    public void insert(Task task) {
+//        try (SqlSession sqlSession = Database.getSqlSessionFactory().openSession()) {
+//            TaskMapper taskMapper = sqlSession.getMapper(TaskMapper.class);
+//            taskMapper.insert(task);
+//
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+    }
 }

@@ -23,36 +23,21 @@
  */
 package com.github.tarrsalah.jaxrs.db;
 
-import com.github.tarrsalah.jaxrs.core.Task;
-import com.github.tarrsalah.jaxrs.core.Tasks;
-import java.util.List;
-import org.apache.ibatis.session.SqlSession;
+import org.flywaydb.core.Flyway;
+import org.skife.jdbi.v2.DBI;
 
 /**
  *
  * @author tarrsalah
  */
-public class TaskService {
+public class DB {
 
-    public Tasks getAll() {
-        List<Task> tasks = null;
+    private static final String url = "jdbc:sqlite:file:target/todo";
+    public static final DBI dbi = new DBI(url);
 
-        try (SqlSession sqlSession = Database.getSqlSessionFactory().openSession()) {
-            TaskMapper taskMapper = sqlSession.getMapper(TaskMapper.class);
-            tasks = taskMapper.getAll();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return new Tasks(tasks);
-    }
-
-    public void insert(Task task) {
-        try (SqlSession sqlSession = Database.getSqlSessionFactory().openSession()) {
-            TaskMapper taskMapper = sqlSession.getMapper(TaskMapper.class);
-            taskMapper.insert(task);
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public static void migrate() {
+        Flyway flyway = new Flyway();
+        flyway.setDataSource(url, "", "");
+        flyway.migrate();
     }
 }

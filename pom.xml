@@ -11,7 +11,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <mainClass>com.github.tarrsalah.jaxrs.Main</mainClass>
         <jersey-version>2.16</jersey-version>
-        <jersey-hk2-version>2.4.0-b10</jersey-hk2-version>
+        <jersey-hk2-version>2.4.0-b9</jersey-hk2-version>
     </properties>
     <dependencies>
         <dependency>
@@ -19,20 +19,12 @@
             <artifactId>flyway-core</artifactId>
             <version>3.1</version>
         </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.4.182</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis</artifactId>
-            <version>3.2.8</version>
-        </dependency>
+
         <dependency>
             <groupId>org.glassfish.hk2</groupId>
             <artifactId>hk2-api</artifactId>
-            <version>2.4.0-b10</version>           
+            <version>2.4.0-b09</version>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
@@ -49,6 +41,16 @@
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-json-jackson</artifactId>
             <version>${jersey-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jdbi</groupId>
+            <artifactId>jdbi</artifactId>
+            <version>2.59</version>
+        </dependency>
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.8.7</version>
         </dependency>
     </dependencies>
     <build>
@@ -75,6 +77,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <killAfter>-1</killAfter>
                     <mainClass>${mainClass}</mainClass>
                 </configuration>
             </plugin>

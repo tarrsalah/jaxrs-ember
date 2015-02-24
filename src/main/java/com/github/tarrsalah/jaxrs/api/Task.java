@@ -24,7 +24,7 @@
 package com.github.tarrsalah.jaxrs.api;
 
 import com.github.tarrsalah.jaxrs.core.Tasks;
-import com.github.tarrsalah.jaxrs.db.TaskService;
+import com.github.tarrsalah.jaxrs.core.TaskService;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -37,7 +37,7 @@ import javax.ws.rs.core.Response;
  * @author tarrsalah
  */
 @Path("/tasks")
-public class TaskResource {
+public class Task {
 
     @Inject
     private TaskService service;
@@ -45,7 +45,7 @@ public class TaskResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
     public Response getTasks() {
-        Tasks tasks =service.getAll();
+        Tasks tasks = service.getAll();
         System.out.println(tasks);
         return Response.status(Response.Status.OK).entity(tasks).build();
     }

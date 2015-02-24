@@ -24,20 +24,17 @@
 package com.github.tarrsalah.jaxrs.db;
 
 import com.github.tarrsalah.jaxrs.core.Task;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import org.skife.jdbi.v2.StatementContext;
-import org.skife.jdbi.v2.tweak.ResultSetMapper;
+import java.util.List;
+import org.skife.jdbi.v2.sqlobject.SqlQuery;
+import org.skife.jdbi.v2.sqlobject.customizers.Mapper;
 
 /**
  *
  * @author tarrsalah
  */
-public class TaskMapper implements ResultSetMapper<Task> {
+public interface TaskDAO {
 
-    @Override
-    public Task map(int i, ResultSet rs, StatementContext sc) throws SQLException {
-        return new Task(rs.getInt("id"), rs.getString("name"));
-    }
-
+    @SqlQuery("select * from task")
+    @Mapper(TaskMapper.class)
+    List<Task> getAll();
 }

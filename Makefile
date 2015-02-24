@@ -1,7 +1,9 @@
 all: exec
 
+clean:
+	mvn clean
 exec:
-	mvn clean compile exec:java
+	mvn compile exec:java
 jar:
 	mvn clean compile assembly:single
 run: jar

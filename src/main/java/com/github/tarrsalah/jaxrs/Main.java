@@ -24,10 +24,11 @@
 package com.github.tarrsalah.jaxrs;
 
 import com.github.tarrsalah.jaxrs.api.config.Resources;
+import com.github.tarrsalah.jaxrs.db.DB;
 import java.io.IOException;
 import java.net.URI;
+
 import javax.ws.rs.core.UriBuilder;
-import org.flywaydb.core.Flyway;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 
@@ -44,9 +45,9 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
-        Flyway flyway = new Flyway();
-        flyway.setDataSource("jdbc:h2:mem:todo;DB_CLOSE_DELAY=1000", "", "");
-        flyway.migrate();
+        DB.migrate();
         HttpServer server = GrizzlyHttpServerFactory.createHttpServer(getBaseURI(), new Resources());
+        System.in.read();
+        server.shutdown();
     }
 }
