@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.tarrsalah.jaxrs.db;
+package com.github.tarrsalah.jaxrs.core.mapper;
 
 import com.github.tarrsalah.jaxrs.core.Task;
 import java.sql.ResultSet;
@@ -39,5 +39,4 @@ public class TaskMapper implements ResultSetMapper<Task> {
     public Task map(int i, ResultSet rs, StatementContext sc) throws SQLException {
         return new Task(rs.getInt("id"), rs.getString("name"));
     }
-
 }

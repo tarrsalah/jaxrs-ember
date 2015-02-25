@@ -21,20 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.tarrsalah.jaxrs.db;
-
-import com.github.tarrsalah.jaxrs.core.Task;
-import java.util.List;
-import org.skife.jdbi.v2.sqlobject.SqlQuery;
-import org.skife.jdbi.v2.sqlobject.customizers.Mapper;
+package com.github.tarrsalah.jaxrs;
 
 /**
  *
  * @author tarrsalah
  */
-public interface TaskDAO {
+import javax.ws.rs.ext.ContextResolver;
+import javax.ws.rs.ext.Provider;
 
-    @SqlQuery("select * from task")
-    @Mapper(TaskMapper.class)
-    List<Task> getAll();
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
+@Provider
+public class ObjectMapperProvider implements ContextResolver<ObjectMapper> {
+
+    private final ObjectMapper objectMapper;
+
+    public ObjectMapperProvider() {
+        objectMapper = new ObjectMapper();
+        objectMapper.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true);
+        objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
+        objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+    }
+
+    @Override
+    public ObjectMapper getContext(@SuppressWarnings("rawtypes") Class type) {
+        return objectMapper;
+    }
+
 }

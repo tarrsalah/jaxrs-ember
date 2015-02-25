@@ -3,9 +3,9 @@
  *
  * Copyright 2014 tarrsalah.
  *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
- * Permission is hereby granted, free of charge, to any person obtaining a copy
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
@@ -21,32 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.tarrsalah.jaxrs.api;
+package com.github.tarrsalah.jaxrs;
 
-import com.github.tarrsalah.jaxrs.core.Tasks;
-import com.github.tarrsalah.jaxrs.core.TaskService;
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import org.glassfish.hk2.utilities.binding.AbstractBinder;
+
+import org.glassfish.jersey.jackson.JacksonFeature;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.skife.jdbi.v2.DBI;
 
 /**
  *
  * @author tarrsalah
  */
-@Path("/tasks")
-public class Task {
+public class Resources extends ResourceConfig {
 
-    @Inject
-    private TaskService service;
+    public static final String URL = "jdbc:sqlite:file:target/todo";
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
-    public Response getTasks() {
-        Tasks tasks = service.getAll();
-        System.out.println(tasks);
-        return Response.status(Response.Status.OK).entity(tasks).build();
+    public Resources() {
+        packages("com.github.tarrsalah.jaxrs.api");
+        register(new HK2Binder());
+        register(JacksonFeature.class);
+        register(new ObjectMapperProvider());
+    }
+}
+
+class HK2Binder extends AbstractBinder {
+
+    @Override
+    protected void configure() {
+        bind(new DBI(Resources.URL)).to(DBI.class);
     }
 }

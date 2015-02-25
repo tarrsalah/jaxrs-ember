@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.tarrsalah</groupId>
-    <artifactId>jaxrs-ember-starter</artifactId>
+    <artifactId>jaxrs-ember</artifactId>
     <version>0.1</version>
     <packaging>jar</packaging>
     <properties>
@@ -52,6 +52,11 @@
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.8.7</version>
         </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.185</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -97,7 +102,7 @@
                 </configuration>
             </plugin>
         </plugins>
-        <finalName>jaxrs-ember-starter</finalName>
+        <finalName>jaxrs-ember</finalName>
     </build>
-    <name>jaxrs-ember-starter</name>
+    <name>jaxrs-ember</name>
 </project>

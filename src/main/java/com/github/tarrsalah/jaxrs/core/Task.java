@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonRootName;
  *
  * @author tarrsalah
  */
-@JsonRootName("customer")
+@JsonRootName("task")
 public class Task {
 
     private long id;
@@ -64,6 +64,11 @@ public class Task {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" + "name=" + name + '}';
     }
 
 }

@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2014 tarrsalah.
+ * Copyright 2015 tarrsalah.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,23 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.github.tarrsalah.jaxrs.db;
+package com.github.tarrsalah.jaxrs.jdbi;
 
-import org.flywaydb.core.Flyway;
-import org.skife.jdbi.v2.DBI;
+import com.github.tarrsalah.jaxrs.core.mapper.TaskMapper;
+import com.github.tarrsalah.jaxrs.core.Task;
+
+import java.util.List;
+import org.skife.jdbi.v2.sqlobject.BindBean;
+import org.skife.jdbi.v2.sqlobject.GetGeneratedKeys;
+import org.skife.jdbi.v2.sqlobject.SqlQuery;
+import org.skife.jdbi.v2.sqlobject.SqlUpdate;
+import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 
 /**
  *
  * @author tarrsalah
  */
-public class DB {
+@RegisterMapper(TaskMapper.class)
+public interface TaskDAO {
 
-    private static final String url = "jdbc:sqlite:file:target/todo";
-    public static final DBI dbi = new DBI(url);
+    @SqlQuery("select * from task")
+    List<Task> getAll();
 
-    public static void migrate() {
-        Flyway flyway = new Flyway();
-        flyway.setDataSource(url, "", "");
-        flyway.migrate();
-    }
+    @SqlUpdate("insert into task(name) values(:name)")
+    @GetGeneratedKeys
+    int insert(@BindBean Task task);
 }
