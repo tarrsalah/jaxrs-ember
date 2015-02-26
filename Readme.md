@@ -1,5 +1,5 @@
-# jaxrs-ember-todos
+# jaxrs-ember
 
-Ember.js TodoApp backed by jaxrs using jersey, grizzly, mybatis3 ..etc.
+Playing with jersey, grizzly, jdbi, emberjs...
 
-`mvn clean exec:java`
+

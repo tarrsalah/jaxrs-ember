@@ -45,13 +45,13 @@ public class Main {
 
     public static void migrate() {
         Flyway flyway = new Flyway();
-        flyway.setDataSource(Resources.URL, "", "");
+        flyway.setDataSource(Application.URL, "", "");
         flyway.migrate();
     }
 
     public static void main(String[] args) throws IOException {
         migrate();
-        HttpServer server = GrizzlyHttpServerFactory.createHttpServer(getBaseURI(), new Resources());
+        HttpServer server = GrizzlyHttpServerFactory.createHttpServer(getBaseURI(), new Application());
         System.in.read();
         server.shutdown();
     }
